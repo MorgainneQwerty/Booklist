@@ -1,7 +1,5 @@
 # Booklist
 
-Entendido. Aqui está a versão limpa, sem nenhum emoji, ideal para um perfil mais minimalista e direto:
-
 Book Catalog REST API with Python
 This is a simple REST API project developed to demonstrate my fundamental knowledge of Backend development using Python and FastAPI.
 
@@ -41,3 +39,5 @@ JSON
   "title": "Dom Casmurro",
   "author": "Machado de Assis"
 }
+
+
