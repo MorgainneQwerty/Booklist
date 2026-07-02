@@ -38,6 +38,6 @@ Method: POST
 
 JSON
 {
-  "titulo": "Dom Casmurro",
-  "autor": "Machado de Assis"
+  "title": "Dom Casmurro",
+  "author": "Machado de Assis"
 }
