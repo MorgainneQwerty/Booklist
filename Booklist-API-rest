@@ -1,49 +1,50 @@
-# 1. Importar o FastAPI e a classe BaseModel do Pydantic (para validação de dados)
+# 1. Import FastAPI and Pydantic's BaseModel (for data validation)
+
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import List
 
-# 2. Inicializar a aplicação FastAPI
-app = FastAPI(title="API de Catálogo de Livros")
+# 2. Initialize the FastAPI application
+app = FastAPI(title="Book Catalog API")
 
-# 3. Definir o modelo de dados que a API vai aceitar (validação automática)
-class Livro(BaseModel):
+# 3. Define the data model that the API will accept (automatic validation)
+class Book(BaseModel):
     id: int
-    titulo: str
-    autor: str
+    title: str
+    author: str
 
-# Modelo específico para quando formos criar um livro (não precisamos enviar o ID)
-class LivroCreate(BaseModel):
-    titulo: str
-    autor: str
+# Specific model for creating a book (we don't need to send the ID in the request)
+class BookCreate(BaseModel):
+    title: str
+    author: str
 
-# 4. Criar a nossa "base de dados" simulada (uma lista de dicionários)
-livros_db = [
-    {"id": 1, "titulo": "O Senhor dos Anéis", "autor": "J.R.R. Tolkien"},
-    {"id": 2, "titulo": "O Alquimista", "autor": "Paulo Coelho"}
+# 4. Create a simulated database (a list of dictionaries)
+books_db = [
+    {"id": 1, "title": "The Lord of the Rings", "author": "J.R.R. Tolkien"},
+    {"id": 2, "title": "The Alchemist", "author": "Paulo Coelho"}
 ]
 
-# 5. Rota GET: Retorna a lista de todos os livros
-@app.get("/livros", response_model=List[Livro])
-def listar_livros():
-    # O FastAPI transforma automaticamente esta lista Python em formato JSON
-    return livros_db
+# 5. GET Endpoint: Returns the list of all books
+@app.get("/books", response_model=List[Book])
+def get_books():
+    # FastAPI automatically converts this Python list into JSON format
+    return books_db
 
-# 6. Rota POST: Recebe um novo livro e adiciona à lista
-@app.post("/livros", response_model=Livro, status_code=201)
-def criar_livro(livro: LivroCreate):
-    # Gerar um ID incremental simples
-    novo_id = len(livros_db) + 1
+# 6. POST Endpoint: Receives a new book and adds it to the list
+@app.post("/books", response_model=Book, status_code=201)
+def create_book(book: BookCreate):
+    # Generate a simple incremental ID
+    new_id = len(books_db) + 1
     
-    # Criar o dicionário do novo livro com os dados recebidos
-    novo_livro = {
-        "id": novo_id,
-        "titulo": livro.titulo,
-        "autor": livro.autor
+    # Create the dictionary for the new book with the received data
+    new_book = {
+        "id": new_id,
+        "title": book.title,
+        "author": book.author
     }
     
-    # Adicionar à nossa lista
-    livros_db.append(novo_livro)
+    # Append the new book to our simulated database
+    books_db.append(new_book)
     
-    # Retornar o livro criado (Status 201 Created automático)
-    return novo_livro
+    # Return the created book (Automatic 201 Created status code)
+    return new_book
